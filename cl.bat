@@ -16,7 +16,7 @@ set SRCFILE_LIST=
 set OBJ_LIST=
 set COMPILE_ARGS=
 set LINK_ARGS=
-set SRC_EXTENSIONS=.c .cpp .cxx .cc
+set SRC_EXTENSIONS=.c .cxx .cpp
 set IN_LINK=0
 for %%f in (%*) do (
     @rem If /link is encountered, all subsequent arguments will be treated as link options
@@ -53,9 +53,9 @@ if !HAS_SOURCE!==0 (
 
 @rem 3. First compile only for the source files to determine the subsystem (in this case, the link files in the compilation arguments will be ignored)
 for %%f in (%SRCFILE_LIST%) do (
-    cl /c /D "WIN32" /D "_UNICODE" /D "UNICODE" /D "_USING_V110_SDK71_" /utf-8 /nologo !COMPILE_ARGS! "%%f" >nul 2>&1 || (
+    cl /c /D "_UNICODE" /D "UNICODE" /D "_USING_V110_SDK71_" /utf-8 /nologo !COMPILE_ARGS! "%%f" >nul 2>&1 || (
         @rem If compilation fails, re-execute to display the error message and then exit
-        cl /c /D "WIN32" /D "_UNICODE" /D "UNICODE" /D "_USING_V110_SDK71_" /utf-8 /nologo !COMPILE_ARGS! "%%f"
+        cl /c /D "_UNICODE" /D "UNICODE" /D "_USING_V110_SDK71_" /utf-8 /nologo !COMPILE_ARGS! "%%f"
         exit /b 1
     )
 )
@@ -76,6 +76,6 @@ for %%o in (!OBJ_LIST!) do (
 )
 
 @rem 5. Re-compile
-cl /D "WIN32" /D "_UNICODE" /D "UNICODE" /D "_USING_V110_SDK71_" /utf-8 /nologo !SRCFILE_LIST! !COMPILE_ARGS! kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /link !LINK_ARGS! !SUBSYS!
+cl /D "_UNICODE" /D "UNICODE" /D "_USING_V110_SDK71_" /utf-8 /nologo !SRCFILE_LIST! !COMPILE_ARGS! kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /link !LINK_ARGS! !SUBSYS!
 
 endlocal
